@@ -1,5 +1,6 @@
 package com.jdolphin.aabeacon.common;
 
+import com.jdolphin.aabeacon.common.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -12,10 +13,14 @@ public class AABHelper {
         return ResourceLocation.tryBuild(Constants.MOD_ID, s);
     }
 
-    public static List<String> mobWhitelist() {
+    public static List<String> defaultWhitelist() {
         return List.of("minecraft:phantom",
                 "minecraft:ghast", "minecraft:blaze",
                 "minecraft:vex", "minecraft:wither");
+    }
+
+    public static List<? extends String> getAllowed() {
+        return Services.PLATFORM.allowedTargets();
     }
 
     public static String getEntityAsString(EntityType<?> type) {

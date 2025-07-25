@@ -8,6 +8,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EndCrystalRenderer;
+import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +35,6 @@ public class LaserCrystalRenderer extends EndCrystalRenderer {
                 float x = (float)(target.x - entity.getX());
                 float y = (float)(target.y - entity.getY()) - 1;
                 float z = (float)(target.z - entity.getZ());
-
                 renderCrystalBeams(entity, x, -y + getY(crystal, partialTicks), z, partialTicks, crystal.tickCount, poseStack, buffer, packedLight);
             }
         }

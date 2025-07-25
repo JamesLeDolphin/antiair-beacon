@@ -3,16 +3,13 @@ package com.jdolphin.aabeacon.common.entity;
 import com.jdolphin.aabeacon.common.AABHelper;
 import com.jdolphin.aabeacon.common.init.AABEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
@@ -22,9 +19,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 
 public class LaserCrystal extends EndCrystal {
     private static final EntityDataAccessor<Vector3f> DATA_BEAM_TARGET = SynchedEntityData.defineId(LaserCrystal.class, EntityDataSerializers.VECTOR3);;
@@ -98,7 +93,7 @@ public class LaserCrystal extends EndCrystal {
             entities.remove(entity);
             entities.removeIf(e -> {
                 String entityAsString = AABHelper.getEntityAsString(e.getType());
-                return !AABHelper.mobWhitelist().contains(entityAsString);
+                return !AABHelper.getAllowed().contains(entityAsString);
             });
             return entities;
         }

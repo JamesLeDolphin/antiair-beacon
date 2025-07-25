@@ -21,7 +21,9 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -36,6 +38,7 @@ public class AABeaconForgeMain {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bind(bus, Registries.ENTITY_TYPE, AABEntities::init);
         MinecraftForge.EVENT_BUS.register(new Event());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AABCommonConfig.SPEC, "aabeacon-common.toml");
     }
 
     private static <T> void bind(IEventBus bus, ResourceKey<Registry<T>> registry, Consumer<BiConsumer<T, ResourceLocation>> source) {
