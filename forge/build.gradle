@@ -3,10 +3,6 @@ plugins {
     id 'net.neoforged.moddev.legacyforge'
 }
 
-mixin {
-    add(sourceSets.main, "${mod_id}.refmap.json")
-}
-
 legacyForge {
     version = "${minecraft_version}-${forge_version}"
 
