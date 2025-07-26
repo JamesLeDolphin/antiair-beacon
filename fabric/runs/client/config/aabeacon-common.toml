@@ -1,0 +1,4 @@
+["Anti-Air Beacon mod config"]
+	#List of allowed beacon targets, everything else is excluded
+	#Separate every entry except the last one with commas
+	allowed_targets = ["minecraft:phantom", "minecraft:ghast", "minecraft:blaze", "minecraft:vex", "minecraft:wither"]

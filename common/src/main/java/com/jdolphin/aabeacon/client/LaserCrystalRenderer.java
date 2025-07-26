@@ -12,13 +12,12 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class LaserCrystalRenderer extends EndCrystalRenderer {
     private static final RenderType BEAM;
-    public static final ResourceLocation CRYSTAL_BEAM_LOCATION = new ResourceLocation("textures/entity/end_crystal/end_crystal_beam.png");
+    public static final ResourceLocation CRYSTAL_BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/end_crystal/end_crystal_beam.png");
     public LaserCrystalRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
@@ -62,16 +61,15 @@ public class LaserCrystalRenderer extends EndCrystalRenderer {
         float f6 = 0.0F;
         PoseStack.Pose posestack$pose = poseStack.last();
         Matrix4f matrix4f = posestack$pose.pose();
-        Matrix3f matrix3f = posestack$pose.normal();
 
         for(int j = 1; j <= 8; ++j) {
             float f7 = Mth.sin((float)j * ((float)Math.PI * 2F) / 8.0F) * 0.75F;
             float f8 = Mth.cos((float)j * ((float)Math.PI * 2F) / 8.0F) * 0.75F;
             float f9 = (float)j / 8.0F;
-            vertexconsumer.vertex(matrix4f, f4 * 0.2F, f5 * 0.2F, 0.0F).color(0, 0, 0, 255).uv(f6, f2).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, f4, f5, -sqrt).color(255, 255, 255, 255).uv(f6, f3).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, f7, f8, -sqrt).color(255, 255, 255, 255).uv(f9, f3).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, f7 * 0.2F, f8 * 0.2F, 0.0F).color(0, 0, 0, 255).uv(f9, f2).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+            vertexconsumer.addVertex(matrix4f, f4 * 0.2F, f5 * 0.2F, 0.0F).setColor(0, 0, 0, 255).setUv(f6, f2).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
+            vertexconsumer.addVertex(matrix4f, f4, f5, -sqrt).setColor(255, 255, 255, 255).setUv(f6, f3).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
+            vertexconsumer.addVertex(matrix4f, f7, f8, -sqrt).setColor(255, 255, 255, 255).setUv(f9, f3).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
+            vertexconsumer.addVertex(matrix4f, f7 * 0.2F, f8 * 0.2F, 0.0F).setColor(0, 0, 0, 255).setUv(f9, f2).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
             f4 = f7;
             f5 = f8;
             f6 = f9;

@@ -14,27 +14,28 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @Mod(Constants.MOD_ID)
-public class AABeaconForgeMain {
+public class AABeaconNeoMain {
     
-    public AABeaconForgeMain(FMLJavaModLoadingContext ctx) {
+    public AABeaconNeoMain(ModContainer container) {
         AABMain.init();
-        IEventBus bus = ctx.getModEventBus();
+        IEventBus bus = container.getEventBus();
         bind(bus, Registries.ENTITY_TYPE, AABEntities::init);
-        MinecraftForge.EVENT_BUS.register(new Event());
-        ctx.registerConfig(ModConfig.Type.COMMON, AABCommonConfig.SPEC, "aabeacon-common.toml");
+        NeoForge.EVENT_BUS.register(new Event());
+        container.registerConfig(ModConfig.Type.COMMON, AABCommonConfig.SPEC, "aabeacon-common.toml");
     }
 
     private static <T> void bind(IEventBus bus, ResourceKey<Registry<T>> registry, Consumer<BiConsumer<T, ResourceLocation>> source) {
@@ -62,7 +63,7 @@ public class AABeaconForgeMain {
                     crystal.setShowBottom(false);
                     level.addFreshEntity(crystal);
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, pos1);
-                    event.setUseItem(net.minecraftforge.eventbus.api.Event.Result.ALLOW);
+                    event.setUseItem(TriState.FALSE);
                     event.setCancellationResult(InteractionResult.SUCCESS);
                     event.setCanceled(true);
                     return;

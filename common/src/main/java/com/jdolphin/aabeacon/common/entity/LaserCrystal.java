@@ -73,9 +73,9 @@ public class LaserCrystal extends EndCrystal {
         }
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.getEntityData().define(DATA_BEAM_TARGET, new Vector3f());
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_BEAM_TARGET, new Vector3f());
     }
 
     public void setTarget(Vector3f beamTarget) {
