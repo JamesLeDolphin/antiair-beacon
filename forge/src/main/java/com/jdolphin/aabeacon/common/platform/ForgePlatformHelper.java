@@ -2,9 +2,6 @@ package com.jdolphin.aabeacon.common.platform;
 
 import com.jdolphin.aabeacon.common.AABCommonConfig;
 import com.jdolphin.aabeacon.common.platform.services.IPlatformHelper;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.util.List;
