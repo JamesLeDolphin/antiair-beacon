@@ -56,12 +56,7 @@ public class AABeaconForgeMain {
 
             if (player.getItemInHand(hand).is(Items.END_CRYSTAL)) {
                 if (level.getBlockState(pos).is(Blocks.BEACON)) {
-                    BlockPos pos1 = pos.above();
-                    LaserCrystal crystal = new LaserCrystal(level);
-                    crystal.setPos(pos1.getX() + 0.5D, pos1.getY(), pos1.getZ() + 0.5D);
-                    crystal.setShowBottom(false);
-                    level.addFreshEntity(crystal);
-                    level.gameEvent(player, GameEvent.ENTITY_PLACE, pos1);
+                    LaserCrystal.create(level, pos, player);
                     event.setUseItem(net.minecraftforge.eventbus.api.Event.Result.ALLOW);
                     event.setCancellationResult(InteractionResult.SUCCESS);
                     event.setCanceled(true);

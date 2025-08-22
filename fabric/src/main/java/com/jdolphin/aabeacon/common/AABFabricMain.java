@@ -4,6 +4,7 @@ import com.jdolphin.aabeacon.common.entity.LaserCrystal;
 import com.jdolphin.aabeacon.common.init.AABEntities;
 import fuzs.forgeconfigapiport.fabric.api.forge.v4.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -30,19 +31,12 @@ public class AABFabricMain implements ModInitializer {
             if (player.getItemInHand(hand).is(Items.END_CRYSTAL)) {
                 BlockPos pos = hitResult.getBlockPos();
                 if (level.getBlockState(pos).is(Blocks.BEACON)) {
-                    BlockPos pos1 = pos.above();
-                    LaserCrystal crystal = new LaserCrystal(level);
-                    crystal.setPos(pos1.getX() + 0.5D, pos1.getY(), pos1.getZ() + 0.5D);
-                    crystal.setShowBottom(false);
-                    level.addFreshEntity(crystal);
-                    level.gameEvent(player, GameEvent.ENTITY_PLACE, pos1);
+                    LaserCrystal.create(level, pos, player);
                     return InteractionResult.SUCCESS;
                 }
             }
             return InteractionResult.PASS;
         });
-
-
     }
 
     private static <T> BiConsumer<T, ResourceLocation> bind(Registry<? super T> registry) {

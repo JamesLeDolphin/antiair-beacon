@@ -13,18 +13,22 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 import java.util.List;
+import java.util.UUID;
 
 public class LaserCrystal extends EndCrystal {
     private static final EntityDataAccessor<Vector3f> DATA_BEAM_TARGET = SynchedEntityData.defineId(LaserCrystal.class, EntityDataSerializers.VECTOR3);;
     protected int attackTime = 0;
     public Entity target;
+    public UUID owner;
 
     public LaserCrystal(EntityType<? extends EndCrystal> entityType, Level level) {
         super(entityType, level);
@@ -54,9 +58,12 @@ public class LaserCrystal extends EndCrystal {
                 if (lvl == 4) radius = 25;
                 List<Entity> entityList = getEntitiesNearby(this, radius);
                 if (entityList != null && !entityList.isEmpty()) {
-                    this.target = entityList.get(0);
-                    Vec3 pos = target.position();
-                    setTarget(new Vector3f((float) pos.x, (float) pos.y, (float) pos.z));
+                    Entity potentialTarget = entityList.getFirst();
+                    if (!potentialTarget.getUUID().equals(owner)) {
+                        target = potentialTarget;
+                        Vec3 pos = target.position();
+                        setTarget(new Vector3f((float) pos.x, (float) pos.y, (float) pos.z));
+                    }
                 } else {
                     target = null;
                     setTarget(new Vector3f());
@@ -71,6 +78,16 @@ public class LaserCrystal extends EndCrystal {
                 }
             }
         }
+    }
+
+    public static void create(Level level, BlockPos pos, Player player) {
+        BlockPos pos1 = pos.above();
+        LaserCrystal crystal = new LaserCrystal(level);
+        crystal.setPos(pos1.getX() + 0.5D, pos1.getY(), pos1.getZ() + 0.5D);
+        crystal.setShowBottom(false);
+        crystal.owner = player.getUUID();
+        level.addFreshEntity(crystal);
+        level.gameEvent(player, GameEvent.ENTITY_PLACE, pos1);
     }
 
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -130,11 +147,11 @@ public class LaserCrystal extends EndCrystal {
         return i;
     }
 
-    protected void addAdditionalSaveData(CompoundTag compound) {
-
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        if (owner != null) tag.putUUID("Owner", owner);
     }
 
-    protected void readAdditionalSaveData(CompoundTag compound) {
-
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        if (tag.contains("Owner")) this.owner = tag.getUUID("Owner");
     }
 }
